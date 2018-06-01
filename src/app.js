@@ -1,72 +1,74 @@
-import React from 'react'
-import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
 import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
+    Collapse,
+    Navbar,
+    NavbarToggler,
+    NavbarBrand,
+    Nav,
+    NavItem,
+    NavLink,
+    Container,
+    Row,
+    Col,
+    Jumbotron,
+    Button, Card
+} from 'reactstrap';
 
-const Home = () => (
-  <div>
-    <h2>Home</h2>
-  </div>
-)
+import styles from './app.css';
 
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-)
+class App extends Component {
+    constructor(props) {
+        super(props);
 
-const Topic = ({ match }) => (
-  <div>
-    <h3>{match.params.topicId}</h3>
-  </div>
-)
+        this.toggle = this.toggle.bind(this);
+        this.state = {
+            isOpen: false
+        };
+    }
+    toggle() {
+        this.setState({
+            isOpen: !this.state.isOpen
+        });
+    }
+    render() {
+        return (
+            <div className="bg-gradient-dark">
+                <Navbar color="dark" dark expand="md">
+                    <NavbarBrand href="/">ePAD</NavbarBrand>
+                    <Collapse isOpen={this.state.isOpen} navbar>
+                        <Nav className="ml-auto" navbar>
+                            <NavItem>
+                                <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
+                            </NavItem>
+                        </Nav>
+                    </Collapse>
+                </Navbar>
+                    	<div className="bg-dark">
+                        <Row>
+                        	<Col sm="4"/>
+                            <Col sm="4">
+                            	<Card body dark="true">
+                                <form className={styles.formSignin}>
+							      <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+							      <label htmlFor="inputEmail" className="sr-only">Email address</label>
+							      <input type="text" id="inputUser" className="form-control" placeholder="Username" required autoFocus />
+							      <label htmlFor="inputPassword" className="sr-only">Password</label>
+							      <input type="password" id="inputPassword" className="form-control" placeholder="Password" required />
+							      <div className="checkbox mb-3">
+							        <label>
+							          <input type="checkbox" value="remember-me" /> I agree to <a href="#">Terms and Conditions</a>
+							        </label>
+							      </div>
+							      <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                                  <a href="#">Forgot Password?</a>
+							    </form>
+							    </Card>
+                            </Col>
+                        </Row>
+                        </div>
+            </div>
+        );
+    }
+}
 
-const Topics = ({ match }) => (
-  <div>
-    <h2>Topics</h2>
-    <ul>
-      <li>
-        <Link to={`${match.url}/rendering`}>
-          Rendering with React
-        </Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/components`}>
-          Components
-        </Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/props-v-state`}>
-          Props v. State
-        </Link>
-      </li>
-    </ul>
-
-    <Route path={`${match.path}/:topicId`} component={Topic}/>
-    <Route exact path={match.path} render={() => (
-      <h3>Please select a topic.</h3>
-    )}/>
-  </div>
-)
-
-const BasicExample = () => (
-  <Router>
-    <div>
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/about">About</Link></li>
-        <li><Link to="/topics">Topics</Link></li>
-      </ul>
-
-      <hr/>
-
-      <Route exact path="/" component={Home}/>
-      <Route path="/about" component={About}/>
-      <Route path="/topics" component={Topics}/>
-    </div>
-  </Router>
-)
-export default BasicExample
+export default App;
