@@ -1,10 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BasicExample from './app';
-import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware} from 'redux';
+import rootReducer from './reducers';
+import thunk from 'redux-thunk';
+import App from './app';
 
-const Index = () => {
-	return <div>Hello React! </div>
-}
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
-ReactDOM.render(<BasicExample />, document.getElementById('index'));
+ReactDOM.render(
+	<Provider store={store}>
+		<App /> 
+	</Provider>,
+ document.getElementById('index'));
